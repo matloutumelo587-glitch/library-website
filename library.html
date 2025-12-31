@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literary Haven | Digital Library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5530;
+            --secondary: #73956f;
+            --accent: #d8b4a0;
+            --light: #f7f3e3;
+            --dark: #1a1a1a;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f7f0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #1e4024);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        .logo-text h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 30px;
+            padding: 8px 20px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 4rem;
+        }
+
+        /* Genre Grid */
+        .genres-section {
+            flex: 2;
+        }
+
+        .section-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .genre-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .genre-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-left: 5px solid var(--accent);
+        }
+
+        .genre-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(44, 85, 48, 0.05);
+            border-bottom: 1px solid #eee;
+        }
+
+        .genre-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(44, 85, 48, 0.1);
+            border-radius: 50%;
+        }
+
+        .genre-title {
+            flex: 1;
+        }
+
+        .genre-title h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .genre-title p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .genre-content {
+            padding: 20px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .genre-description {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            max-height: 80px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .genre-card.expanded .genre-description {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Genre Info Panel */
+        .info-panel {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 15px var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .info-panel h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .selected-genre-info {
+            margin-top: 20px;
+        }
+
+        .selected-genre-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .selected-genre-title i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .selected-genre-title h4 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .genre-history {
+            background-color: rgba(44, 85, 48, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .genre-history p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .genre-history h5 {
+            color: var(--primary);
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .genre-examples {
+            margin-top: 20px;
+        }
+
+        .examples-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .example-tag {
+            background-color: var(--secondary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Media Section */
+        .media-section {
+            margin-bottom: 4rem;
+        }
+
+        .media-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+
+        .media-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .media-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .media-card-content {
+            padding: 20px;
+        }
+
+        .media-card h4 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .media-card p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .media-type {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* Developer Section */
+        .developer-section {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .developer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .developer-section p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .info-panel {
+                position: static;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .genre-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .media-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Literary Haven</h1>
+                    <p>Explore Worlds Through Pages</p>
+                </div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search books, authors, genres...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Discover Your Next Great Read</h2>
+            <p>Explore our vast collection of books across all genres, from timeless classics to contemporary masterpieces. Dive into the history and evolution of literary genres.</p>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">50,000+</div>
+                    <div class="stat-label">Books Available</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Literary Genres</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">New Arrivals Monthly</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Genres Section -->
+        <section class="genres-section">
+            <h2 class="section-title">Explore Literary Genres</h2>
+            <p style="margin-bottom: 2rem; color: #666;">Click on any genre to learn about its history and characteristics</p>
+            
+            <div class="genre-grid" id="genreGrid">
+                <!-- Genre cards will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Info Panel -->
+        <aside class="info-panel">
+            <h3>Genre Spotlight</h3>
+            <div class="selected-genre-info" id="selectedGenreInfo">
+                <div class="selected-genre-title">
+                    <i class="fas fa-book"></i>
+                    <h4>Select a Genre</h4>
+                </div>
+                <p>Click on any genre card to see detailed information about its history, key characteristics, and notable examples.</p>
+                
+                <div class="genre-history" id="genreHistory">
+                    <p>Information about the selected genre will appear here.</p>
+                </div>
+                
+                <div class="genre-examples">
+                    <h5>Notable Examples</h5>
+                    <div class="examples-list" id="examplesList">
+                        <span class="example-tag">Select a genre to see examples</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Media Section -->
+    <section class="container media-section">
+        <h2 class="section-title">Featured Media Collections</h2>
+        <div class="media-cards">
+            <div class="media-card">
+                <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Audiobooks">
+                <div class="media-card-content">
+                    <h4>Audiobooks Collection</h4>
+                    <p>Immerse yourself in stories narrated by professional voice actors and authors.</p>
+                    <span class="media-type">Audio</span>
+                </div>
+            </div>
+            
+            <div class="media-card">
+                <img src="https://images.unsplash.com/photo-1544716278-e513176f20b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="E-books">
+                <div class="media-card-content">
+                    <h4>Digital E-Books</h4>
+                    <p>Access thousands of books on any device with our digital lending library.</p>
+                    <span class="media-type">Digital</span>
+                </div>
+            </div>
+            
+            <div class="media-card">
+                <img src="https://images.unsplash.com/photo-1524578271613-d550eacf6090?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Magazines">
+                <div class="media-card-content">
+                    <h4>Magazine Archives</h4>
+                    <p>Browse decades of magazines covering science, arts, culture, and more.</p>
+                    <span class="media-type">Periodicals</span>
+                </div>
+            </div>
+            
+            <div class="media-card">
+                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&auto=format&fit=crop&w-1350&q=80" alt="Research Papers">
+                <div class="media-card-content">
+                    <h4>Academic Journals</h4>
+                    <p>Access scholarly articles and research papers across all disciplines.</p>
+                    <span class="media-type">Academic</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Literary Haven</h3>
+                    <p>Your gateway to knowledge, imagination, and discovery. Established in 1995, we continue to serve readers and researchers worldwide.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Browse Catalog</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Digital Library</a></li>
+                        <li><a href="#">Research Tools</a></li>
+                        <li><a href="#">Library Events</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Knowledge Street</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@literaryhaven.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9am-9pm, Sat-Sun: 10am-6pm</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Literary Haven Digital Library. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Developer Section -->
+    <div class="developer-section">
+        <div class="container">
+            <h3>Interactive Library Website</h3>
+            <p>This responsive library website showcases interactive genre exploration with historical information. Each genre card reveals detailed history when clicked, demonstrating dynamic content loading and clean UI/UX design. Built with HTML, CSS, and JavaScript in a single file.</p>
+        </div>
+    </div>
+
+    <script>
+        // Genre data with history and examples
+        const genres = [
+            {
+                id: 1,
+                name: "Science Fiction",
+                icon: "fas fa-rocket",
+                description: "Science fiction explores imaginative concepts such as futuristic science, technology, space exploration, time travel, parallel universes, and extraterrestrial life.",
+                history: "Science fiction emerged in the early 20th century, though its roots trace back to ancient mythology and fantastical voyages. The term 'science fiction' was coined in the 1920s. The genre gained popularity through pulp magazines in the 1920s-1950s, with authors like H.G. Wells and Jules Verne pioneering the form. The 1960s New Wave movement brought greater literary sophistication, while cyberpunk emerged in the 1980s focusing on information technology and cybernetics.",
+                keyPoints: [
+                    "Originated from scientific romance and speculative fiction",
+                    "Golden Age (1938-1946) established many genre conventions",
+                    "New Wave (1960s-1970s) emphasized style and psychological depth",
+                    "Cyberpunk (1980s) explored high-tech, low-life societies",
+                    "Contemporary sci-fi often addresses AI, climate change, and biotechnology"
+                ],
+                examples: ["Dune", "1984", "Neuromancer", "The Left Hand of Darkness", "The Martian"]
+            },
+            {
+                id: 2,
+                name: "Fantasy",
+                icon: "fas fa-dragon",
+                description: "Fantasy features magical and supernatural elements that do not exist in the real world, often set in imaginary worlds with mythical creatures and ancient lore.",
+                history: "Fantasy literature has ancient roots in mythology, epics, and folklore from cultures worldwide. Modern fantasy began in the Victorian era with works like George MacDonald's Phantastes (1858). The genre expanded in popularity with Lord Dunsany's early 20th-century works and truly entered the mainstream with J.R.R. Tolkien's The Hobbit (1937) and The Lord of the Rings (1954-1955). The 1970s saw the rise of sword and sorcery, while the 1990s brought grimdark fantasy.",
+                keyPoints: [
+                    "Roots in ancient mythology, epics, and folklore",
+                    "Victorian era saw the birth of modern fantasy",
+                    "Tolkien's works established high fantasy conventions",
+                    "1970s-80s: Rise of fantasy role-playing games influenced literature",
+                    "Contemporary fantasy often blends with other genres"
+                ],
+                examples: ["The Lord of the Rings", "Harry Potter", "A Game of Thrones", "The Name of the Wind", "The Chronicles of Narnia"]
+            },
+            {
+                id: 3,
+                name: "Mystery",
+                icon: "fas fa-search",
+                description: "Mystery fiction focuses on solving a crime or puzzle, typically featuring detectives, amateur sleuths, or investigators as protagonists.",
+                history: "Modern mystery fiction began with Edgar Allan Poe's 'The Murders in the Rue Morgue' (1841), featuring the first fictional detective. The genre expanded with Wilkie Collins' The Moonstone (1868). The Golden Age of detective fiction (1920s-1930s) was dominated by Agatha Christie, Dorothy L. Sayers, and others. Hardboiled detective fiction emerged in the 1920s-30s with Dashiell Hammett and Raymond Chandler. Contemporary mystery includes police procedurals, cozy mysteries, and psychological thrillers.",
+                keyPoints: [
+                    "Edgar Allan Poe created the first fictional detective",
+                    "Golden Age (1920s-1930s) established 'whodunit' conventions",
+                    "Hardboiled detective fiction emerged from American pulp magazines",
+                    "Police procedurals gained popularity in the 1950s",
+                    "Nordic noir became a significant subgenre in the 1990s-2000s"
+                ],
+                examples: ["Sherlock Holmes", "And Then There Were None", "The Maltese Falcon", "The Girl with the Dragon Tattoo", "Gone Girl"]
+            },
+            {
+                id: 4,
+                name: "Historical Fiction",
+                icon: "fas fa-landmark",
+                description: "Historical fiction presents narratives set in the past, often featuring real historical events, figures, or settings with fictionalized elements.",
+                history: "Historical fiction has roots in early epics like the Iliad and medieval romances. Sir Walter Scott is often credited with establishing the modern form with works like Ivanhoe (1819). The genre flourished in the 19th century with authors like Alexandre Dumas and Leo Tolstoy. In the 20th century, historical fiction diversified with works focusing on previously marginalized perspectives. Contemporary historical fiction often employs postmodern techniques and addresses previously overlooked historical events.",
+                keyPoints: [
+                    "Walter Scott established the modern historical novel",
+                    "19th century saw historical fiction as a dominant literary form",
+                    "20th century brought greater historical accuracy and diverse perspectives",
+                    "Postmodern historical fiction often plays with historical interpretation",
+                    "Recent trends include focusing on ordinary people's experiences"
+                ],
+                examples: ["War and Peace", "Wolf Hall", "The Pillars of the Earth", "All the Light We Cannot See", "The Book Thief"]
+            },
+            {
+                id: 5,
+                name: "Romance",
+                icon: "fas fa-heart",
+                description: "Romance focuses on the romantic relationship between two people, with an emotionally satisfying and optimistic ending.",
+                history: "Romance literature dates back to ancient Greek novels. The modern romance novel emerged in the 18th century with Samuel Richardson's Pamela (1740). The 19th century saw the rise of Gothic romance and the novels of Jane Austen and the Brontë sisters. The mass-market romance novel industry began in the 1970s with the founding of Harlequin Enterprises. Contemporary romance has diversified to include numerous subgenres and has become one of the most commercially successful literary genres.",
+                keyPoints: [
+                    "Roots in medieval courtly love tradition and 18th-century novels",
+                    "Jane Austen established the comedy of manners romance",
+                    "Gothic romance was popular in the late 18th-early 19th centuries",
+                    "Mass-market paperback romance exploded in the 1970s",
+                    "Contemporary romance includes diverse subgenres and representations"
+                ],
+                examples: ["Pride and Prejudice", "Jane Eyre", "Outlander", "The Notebook", "Red, White & Royal Blue"]
+            },
+            {
+                id: 6,
+                name: "Horror",
+                icon: "fas fa-ghost",
+                description: "Horror fiction aims to elicit fear, dread, or disgust in its readers, often featuring supernatural elements, psychological terror, or monstrous entities.",
+                history: "Horror has ancient roots in mythology, folklore, and religious texts depicting demons and evil spirits. Gothic horror emerged in the 18th century with Horace Walpole's The Castle of Otranto (1764). The 19th century saw classics from Mary Shelley, Edgar Allan Poe, and Bram Stoker. The 20th century brought cosmic horror (H.P. Lovecraft) and psychological horror (Shirley Jackson). Modern horror diversified with slasher fiction, splatterpunk, and quiet horror movements.",
+                keyPoints: [
+                    "Gothic horror established the genre in the 18th century",
+                    "19th century produced iconic monsters (Frankenstein, Dracula)",
+                    "Pulp magazines popularized horror in early 20th century",
+                    "The 1970s saw the rise of modern horror with King and Jackson",
+                    "Contemporary horror often addresses social anxieties"
+                ],
+                examples: ["Frankenstein", "Dracula", "The Shining", "The Haunting of Hill House", "It"]
+            },
+            {
+                id: 7,
+                name: "Biography",
+                icon: "fas fa-user",
+                description: "Biography presents a detailed description of a person's life, going beyond basic facts to include personal experiences and contextual historical information.",
+                history: "Biography has ancient origins, with early examples found in classical antiquity (Plutarch's Parallel Lives). Medieval biographies often focused on religious figures. The modern biography emerged in the 18th century with works like James Boswell's Life of Samuel Johnson (1791). The 19th century saw the development of scholarly biography with extensive research. The 20th century brought psychobiography and increased focus on ordinary people's lives. Contemporary biography often challenges traditional narratives.",
+                keyPoints: [
+                    "Ancient biographies focused on rulers, heroes, and religious figures",
+                    "18th century established modern biographical form",
+                    "19th century emphasized historical accuracy and documentation",
+                    "20th century introduced psychological analysis and diverse subjects",
+                    "Contemporary biographies often deconstruct their subjects"
+                ],
+                examples: ["The Life of Samuel Johnson", "Steve Jobs", "The Diary of a Young Girl", "Alexander Hamilton", "Educated"]
+            },
+            {
+                id: 8,
+                name: "Poetry",
+                icon: "fas fa-feather-alt",
+                description: "Poetry uses aesthetic and rhythmic qualities of language to evoke meanings beyond prose, employing meter, rhyme, and various stylistic devices.",
+                history: "Poetry is among the oldest forms of literature, predating literacy with oral traditions like epic poetry. Ancient civilizations developed distinct poetic traditions (Greek, Sanskrit, Chinese). Medieval poetry included courtly love and religious themes. The Renaissance saw sonnet sequences and metaphysical poetry. Romanticism (late 18th-early 19th century) emphasized emotion and nature. Modernist poetry (early 20th century) experimented with form. Contemporary poetry continues to evolve with diverse voices and forms.",
+                keyPoints: [
+                    "Ancient oral traditions established poetic forms",
+                    "Classical antiquity developed epic, lyric, and dramatic poetry",
+                    "Romanticism revolutionized poetry's subject matter and style",
+                    "Modernism broke from traditional forms and meters",
+                    "Contemporary poetry embraces diverse forms and voices"
+                ],
+                examples: ["The Odyssey", "The Divine Comedy", "Leaves of Grass", "The Waste Land", "Milk and Honey"]
+            }
+        ];
+
+        // DOM Elements
+        const genreGrid = document.getElementById('genreGrid');
+        const selectedGenreInfo = document.getElementById('selectedGenreInfo');
+        const genreHistory = document.getElementById('genreHistory');
+        const examplesList = document.getElementById('examplesList');
+        let activeGenreCard = null;
+
+        // Initialize the page with genres
+        function initializeGenres() {
+            // Create genre cards
+            genres.forEach(genre => {
+                const genreCard = document.createElement('div');
+                genreCard.className = 'genre-card';
+                genreCard.dataset.id = genre.id;
+                
+                genreCard.innerHTML = `
+                    <div class="genre-header">
+                        <div class="genre-icon">
+                            <i class="${genre.icon}"></i>
+                        </div>
+                        <div class="genre-title">
+                            <h3>${genre.name}</h3>
+                            <p>Click to learn history</p>
+                        </div>
+                    </div>
+                    <div class="genre-content">
+                        <div class="genre-description">
+                            ${genre.description}
+                        </div>
+                        <div class="read-more">Read More</div>
+                    </div>
+                `;
+                
+                // Add click event to genre card
+                genreCard.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('read-more')) {
+                        selectGenre(genre.id, this);
+                    }
+                });
+                
+                // Add click event to read more button
+                const readMoreBtn = genreCard.querySelector('.read-more');
+                readMoreBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    genreCard.classList.toggle('expanded');
+                    this.textContent = genreCard.classList.contains('expanded') ? 'Read Less' : 'Read More';
+                });
+                
+                genreGrid.appendChild(genreCard);
+            });
+            
+            // Select the first genre by default
+            selectGenre(1, genreGrid.children[0]);
+        }
+
+        // Handle genre selection
+        function selectGenre(genreId, cardElement) {
+            // Remove active class from previously active card
+            if (activeGenreCard) {
+                activeGenreCard.classList.remove('active');
+            }
+            
+            // Add active class to clicked card
+            cardElement.classList.add('active');
+            activeGenreCard = cardElement;
+            
+            // Find the selected genre
+            const selectedGenre = genres.find(g => g.id === genreId);
+            
+            // Update the info panel
+            selectedGenreInfo.innerHTML = `
+                <div class="selected-genre-title">
+                    <i class="${selectedGenre.icon}"></i>
+                    <h4>${selectedGenre.name}</h4>
+                </div>
+                <p><strong>Description:</strong> ${selectedGenre.description}</p>
+                
+                <div class="genre-history">
+                    <h5>Historical Overview</h5>
+                    <p>${selectedGenre.history}</p>
+                    
+                    <h5>Key Historical Points</h5>
+                    <ul>
+                        ${selectedGenre.keyPoints.map(point => `<li>${point}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="genre-examples">
+                    <h5>Notable Examples</h5>
+                    <div class="examples-list">
+                        ${selectedGenre.examples.map(example => `<span class="example-tag">${example}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Scroll the info panel into view on mobile
+            if (window.innerWidth <= 992) {
+                selectedGenreInfo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Initialize search functionality
+        function initializeSearch() {
+            const searchInput = document.querySelector('.search-bar input');
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = this.value.toLowerCase();
+                    
+                    // Filter genres based on search term
+                    const filteredGenres = genres.filter(genre => 
+                        genre.name.toLowerCase().includes(searchTerm) ||
+                        genre.description.toLowerCase().includes(searchTerm) ||
+                        genre.history.toLowerCase().includes(searchTerm) ||
+                        genre.examples.some(example => example.toLowerCase().includes(searchTerm))
+                    );
+                    
+                    // Update genre grid with filtered results
+                    updateGenreGrid(filteredGenres);
+                    
+                    // If only one result, select it automatically
+                    if (filteredGenres.length === 1) {
+                        const genreCard = document.querySelector(`.genre-card[data-id="${filteredGenres[0].id}"]`);
+                        if (genreCard) {
+                            selectGenre(filteredGenres[0].id, genreCard);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update genre grid with filtered results
+        function updateGenreGrid(filteredGenres) {
+            // Clear the grid
+            genreGrid.innerHTML = '';
+            
+            if (filteredGenres.length === 0) {
+                genreGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No genres found matching your search.</p>';
+                selectedGenreInfo.innerHTML = `
+                    <div class="selected-genre-title">
+                        <i class="fas fa-search"></i>
+                        <h4>No Results Found</h4>
+                    </div>
+                    <p>Try a different search term to explore literary genres.</p>
+                `;
+                return;
+            }
+            
+            // Recreate cards for filtered genres
+            filteredGenres.forEach(genre => {
+                const genreCard = document.createElement('div');
+                genreCard.className = 'genre-card';
+                genreCard.dataset.id = genre.id;
+                
+                genreCard.innerHTML = `
+                    <div class="genre-header">
+                        <div class="genre-icon">
+                            <i class="${genre.icon}"></i>
+                        </div>
+                        <div class="genre-title">
+                            <h3>${genre.name}</h3>
+                            <p>Click to learn history</p>
+                        </div>
+                    </div>
+                    <div class="genre-content">
+                        <div class="genre-description">
+                            ${genre.description}
+                        </div>
+                        <div class="read-more">Read More</div>
+                    </div>
+                `;
+                
+                // Add click event to genre card
+                genreCard.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('read-more')) {
+                        selectGenre(genre.id, this);
+                    }
+                });
+                
+                // Add click event to read more button
+                const readMoreBtn = genreCard.querySelector('.read-more');
+                readMoreBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    genreCard.classList.toggle('expanded');
+                    this.textContent = genreCard.classList.contains('expanded') ? 'Read Less' : 'Read More';
+                });
+                
+                genreGrid.appendChild(genreCard);
+            });
+            
+            // Select the first filtered genre
+            selectGenre(filteredGenres[0].id, genreGrid.children[0]);
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGenres();
+            initializeSearch();
+        });
+    </script>
+</body>
+</html>
